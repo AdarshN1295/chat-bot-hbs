@@ -1,48 +1,44 @@
-const express = require("express");
+const express = require('express');
 const app = express();
-const hbs = require('hbs')
-const port = 5100;
-const mysql = require('mysql2');
-
-app.set('view engine', 'hbs')
-hbs.registerPartials(__dirname + '/partials');
-
-app.get('/login', (req, res)=>{
-    res.render('login')
-})
-
-app.get('/', (req, res)=>{
-    res.render('index')
-})
-
-app.use(express.json());
-
-const db = mysql.createPool({
-    host: 'localhost',
-    user: 'root',
-    password: '',
-    database: 'Blogging'
-})
-
-db.getConnection((err, connection)=>{
-    if(err){
-        console.error("something went wrong!");
-    } else {
-        console.log("Connection is created!")
-        connection.release();
+const http = require('http').createServer(app);
+const io = require('socket.io')(http, {
+    cors: {
+        origin: "*", // Allow all origins for testing; restrict in production
+        methods: ["GET", "POST"]
     }
-})
+});
 
-app.get('/users', (req, res)=>{
-    const sql = "SELECT * FROM `users`"
-    db.query(sql, (err, results) => {
-        if (err) {
-          return res.status(500).json({ error: err.message });
-        }
-        res.json(results);
-      });
-})
+const PORT = process.env.PORT || 8000;
 
-app.listen(port, ()=>{
-    console.log(`server is listening at: localhost:${port}/ `);
-})
+// Serve static files from the root directory
+app.use(express.static(__dirname + '/../'));
+
+// Serve index.html at the root URL
+app.get('/', (req, res) => {
+    res.sendFile(__dirname + '/index.html');
+});
+
+const users = {};
+
+io.on('connection', (socket) => {
+    // User joins the chat
+    socket.on('new-user-joined', (namee) => {
+        users[socket.id] = namee;
+        socket.broadcast.emit('user-joined', namee);
+    });
+
+    // User sends a message
+    socket.on('send', (message) => {
+        socket.broadcast.emit('receive', { message: message, namee: users[socket.id] });
+    });
+
+    // User disconnects
+    socket.on('disconnect', () => {
+        socket.broadcast.emit('left', users[socket.id]);
+        delete users[socket.id];
+    });
+});
+
+http.listen(PORT, () => {
+    console.log(`Server running on port ${PORT}`);
+});
