@@ -1,45 +1,32 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Homepage</title>
+    <title>AB Web Chat</title>
     <link rel="stylesheet" href="/public/css/style.css">
-    <script src="https://cdn.tailwindcss.com"></script>
-
-<style>
-
-html,
-body{
-    height: 100%;}
-
-.w-5p--custom{
-    height: 8%;}
-
-.w-95p--custom{
-    height: 92%;}
-
-
-</style>
-
+    <script defer src="http://localhost:8000/socket.io/socket.io.js"></script>
 </head>
 <body>
-
-{{>header}}
-
-<div class="main-box w-95p--custom w-full flex items-center justify-center">
-    <div class="side_bar w-2/12 min-h-full h-full bg-emerald-400">
-        <ul class="w-full p-2 menu-link">
-            <li class="links w-full">Home</li>
-            <li class="links w-full">Catalogue</li>
-            <li class="links w-full">Shop</li>
-            <li class="links w-full">Contact</li>
-        </ul>
-    </div>
-    <div class="side_bar w-10/12 min-h-full h-full bg-emerald-100"></div>
+    
+<div class="headerblock">
+    <img src="/logo.png" alt="" class="logo">
 </div>
+<div class="lowerblock">
+    <div id="content-container" class="input-box">
+    </div>
+    <div class="buttons-box">
+        <form action="#" id="send-container" style="width: 100%;">
+            <input type="text" id="messageInput" class="message-inp left">
+            <input type="submit" class="btn">
+        </form>
+    </div>
+</div>
+</body>
+</html>
 
 
-
+<script href="/public/script/script.js">
 </body>
 </html>
