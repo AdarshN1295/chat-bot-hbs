@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Homepage</title>
+    <link rel="stylesheet" href="/public/css/style.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+
+<style>
+
+html,
+body{
+    height: 100%;}
+
+.w-5p--custom{
+    height: 8%;}
+
+.w-95p--custom{
+    height: 92%;}
+
+
+</style>
+
+</head>
+<body>
+
+{{>header}}
+
+<div class="main-box w-95p--custom w-full flex items-center justify-center">
+    <div class="side_bar w-2/12 min-h-full h-full bg-emerald-400">
+        <ul class="w-full p-2 menu-link">
+            <li class="links w-full">Home</li>
+            <li class="links w-full">Catalogue</li>
+            <li class="links w-full">Shop</li>
+            <li class="links w-full">Contact</li>
+        </ul>
+    </div>
+    <div class="side_bar w-10/12 min-h-full h-full bg-emerald-100"></div>
+</div>
+
+
+
+</body>
+</html>

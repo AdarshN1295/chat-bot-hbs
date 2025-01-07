@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.jsdelivr.net/npm/axios@1.7.9/dist/axios.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <title>Login</title>
+</head>
+<body>
+    
+<form method="post" class="form-changer m-12">
+    <input type="text" name="email" class="email border-2 border-zinc-400 border-solid">
+    <input type="text" name="pass" class="pass border-2 border-zinc-400 border-solid">
+    <input type="submit" name="submit" class="submit">
+</form>
+<div class="newUserSignIn m-12" style="cursor: pointer; color: blue;">
+    Sign In
+</div>
+
+<script>
+
+const url = "http://localhost:5100/users"; 
+
+const mail = document.querySelector('.email');
+const pass = document.querySelector('.pass');
+document.querySelector('.submit').addEventListener('click', (ev)=>{
+    ev.preventDefault();
+
+(async()=>{
+    let resp = await fetch(url);
+    let data = await resp.json();
+    try{
+        if(mail.value == data[0].email && pass.value == data[0].pass){
+          console.log('Credential Matched');
+          window.open('/','_self');
+        } else {
+            let popup = document.createElement('div')
+                popup.setAttribute('class', 'popup-login');
+                    popup.innerHTML = '<div style="background: beige;" width: max-content;><p style="color: red;">Invalid Username /    Password</p></div>';
+                document.body.appendChild(popup);
+            console.log('Wrong Credential');
+        }
+        console.log('try')
+    } catch(error){
+        console.log(error)
+    }
+    }
+)()
+})
+const signin = document.querySelector('.newUserSignIn');
+signin.addEventListener('click', ()=>{
+    let form = document.querySelector('.form-changer');
+        form.innerHTML = `<input type="text" name="username" placeholder="write username" class="username"><br><input type="text" name="email" placeholder="write email" class="email"><br><input type="text" name="pass" placeholder="write pass" class="pass"><br><input type="text" name="number" placeholder="write number" class="number"><br><input type="submit" name="submit" class="submit">`;
+    document.querySelector('.submit').addEventListener('click', (ev)=>{
+        ev.preventDefault();
+            console.log(`${document.querySelector('.username').value} || ${document.querySelector('.email').value} || ${document.querySelector('.pass').value} || ${document.querySelector('.number').value}`)
+    })
+})
+
+
+
+</script>
+</body>
+</html>
